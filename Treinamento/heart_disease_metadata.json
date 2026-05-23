@@ -1,0 +1,210 @@
+{
+  "model_name": "Gradient Boosting",
+  "features": [
+    "HighBP",
+    "HighChol",
+    "CholCheck",
+    "BMI",
+    "BMI_cat",
+    "Smoker",
+    "Stroke",
+    "Diabetes",
+    "PhysActivity",
+    "Fruits",
+    "Veggies",
+    "HvyAlcoholConsump",
+    "AnyHealthcare",
+    "NoDocbcCost",
+    "GenHlth",
+    "MentHlth",
+    "PhysHlth",
+    "DiffWalk",
+    "Sex",
+    "Age",
+    "Education",
+    "Income",
+    "HealthyLifestyle"
+  ],
+  "feature_map": {
+    "HighBP": {
+      "label": "Tem pressão alta diagnosticada?",
+      "type": "binary"
+    },
+    "HighChol": {
+      "label": "Tem colesterol alto diagnosticado?",
+      "type": "binary"
+    },
+    "CholCheck": {
+      "label": "Fez check de colesterol nos últimos 5 anos?",
+      "type": "binary"
+    },
+    "BMI": {
+      "label": "IMC (calculado de peso e altura)",
+      "type": "numeric",
+      "range": [
+        12,
+        55
+      ]
+    },
+    "BMI_cat": {
+      "label": "Categoria IMC (0=Abaixo peso, 1=Normal, 2=Sobrepeso, 3=Obeso)",
+      "type": "ordinal",
+      "range": [
+        0,
+        3
+      ]
+    },
+    "Smoker": {
+      "label": "Já fumou mais de 100 cigarros na vida?",
+      "type": "binary"
+    },
+    "Stroke": {
+      "label": "Já teve AVC?",
+      "type": "binary"
+    },
+    "Diabetes": {
+      "label": "Diabetes? (0=Não, 1=Pré-diabetes, 2=Confirmado)",
+      "type": "ordinal",
+      "range": [
+        0,
+        2
+      ]
+    },
+    "PhysActivity": {
+      "label": "Praticou atividade física nos últimos 30 dias?",
+      "type": "binary"
+    },
+    "Fruits": {
+      "label": "Consome frutas todos os dias?",
+      "type": "binary"
+    },
+    "Veggies": {
+      "label": "Consome vegetais todos os dias?",
+      "type": "binary"
+    },
+    "HvyAlcoholConsump": {
+      "label": "Consumo pesado de álcool?",
+      "type": "binary"
+    },
+    "AnyHealthcare": {
+      "label": "Tem plano de saúde?",
+      "type": "binary"
+    },
+    "NoDocbcCost": {
+      "label": "Deixou de ir ao médico por custo?",
+      "type": "binary"
+    },
+    "GenHlth": {
+      "label": "Saúde geral (1=Excelente, 5=Ruim)",
+      "type": "ordinal",
+      "range": [
+        1,
+        5
+      ]
+    },
+    "MentHlth": {
+      "label": "Dias com saúde mental ruim no último mês (0-30)",
+      "type": "numeric",
+      "range": [
+        0,
+        30
+      ]
+    },
+    "PhysHlth": {
+      "label": "Dias com problemas físicos no último mês (0-30)",
+      "type": "numeric",
+      "range": [
+        0,
+        30
+      ]
+    },
+    "DiffWalk": {
+      "label": "Dificuldade para caminhar ou subir escadas?",
+      "type": "binary"
+    },
+    "Sex": {
+      "label": "Sexo (0=Feminino, 1=Masculino)",
+      "type": "binary"
+    },
+    "Age": {
+      "label": "Faixa etária (1=18-24 até 13=80+)",
+      "type": "ordinal",
+      "range": [
+        1,
+        13
+      ]
+    },
+    "Education": {
+      "label": "Escolaridade (1=Nunca estudou, 6=Superior)",
+      "type": "ordinal",
+      "range": [
+        1,
+        6
+      ]
+    },
+    "Income": {
+      "label": "Faixa de renda (1=Baixa, 8=Alta)",
+      "type": "ordinal",
+      "range": [
+        1,
+        8
+      ]
+    },
+    "HealthyLifestyle": {
+      "label": "Score de hábitos saudáveis (calculado, 0-5)",
+      "type": "numeric",
+      "range": [
+        0,
+        5
+      ]
+    }
+  },
+  "auc_roc": 0.853,
+  "recall": 0.5045,
+  "f1": 0.5655,
+  "threshold_default": 0.5,
+  "threshold_sensitive": 0.35,
+  "target": "HeartDiseaseorAttack",
+  "class_labels": [
+    "Saudável",
+    "Risco de Doença Cardíaca"
+  ],
+  "all_results": [
+    {
+      "Modelo": "Logistic Regression",
+      "AUC-ROC": 0.8512,
+      "AUC-PR": 0.6338,
+      "Recall": 0.8129,
+      "Precision": 0.5167,
+      "F1": 0.6318,
+      "Tempo(s)": 0.1
+    },
+    {
+      "Modelo": "Random Forest",
+      "AUC-ROC": 0.8505,
+      "AUC-PR": 0.631,
+      "Recall": 0.8159,
+      "Precision": 0.5122,
+      "F1": 0.6293,
+      "Tempo(s)": 0.9
+    },
+    {
+      "Modelo": "Gradient Boosting",
+      "AUC-ROC": 0.853,
+      "AUC-PR": 0.6394,
+      "Recall": 0.5045,
+      "Precision": 0.6433,
+      "F1": 0.5655,
+      "Tempo(s)": 12.1
+    },
+    {
+      "Modelo": "XGBoost",
+      "AUC-ROC": 0.8524,
+      "AUC-PR": 0.638,
+      "Recall": 0.8272,
+      "Precision": 0.5041,
+      "F1": 0.6264,
+      "Tempo(s)": 0.7
+    }
+  ]
+}
