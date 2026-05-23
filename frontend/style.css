@@ -446,5 +446,20 @@ footer {
     border-top:    1px solid var(--color-border);
 }
 
+/* ── Links ──────────────────────────────────────────────────────────────────── */
+a {
+    color:           var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+a:hover { color: var(--color-accent-mid); }
+
+footer a {
+    color: var(--color-muted);
+}
+
+footer a:hover { color: var(--color-accent); }
+
 /* ── Utilitários ────────────────────────────────────────────────────────────── */
 .hidden { display: none; }
