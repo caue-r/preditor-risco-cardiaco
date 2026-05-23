@@ -1,5 +1,5 @@
 {
-  "model_name": "Gradient Boosting",
+  "model_name": "XGBoost",
   "features": [
     "HighBP",
     "HighChol",
@@ -159,11 +159,11 @@
       ]
     }
   },
-  "auc_roc": 0.853,
-  "recall": 0.5045,
-  "f1": 0.5655,
-  "threshold_default": 0.5,
-  "threshold_sensitive": 0.35,
+  "auc_roc": 0.8524,
+  "recall": 0.8272,
+  "f1": 0.6264,
+  "threshold_default": 0.35,
+  "threshold_sensitive": 0.25,
   "target": "HeartDiseaseorAttack",
   "class_labels": [
     "Saudável",
@@ -186,7 +186,7 @@
       "Recall": 0.8159,
       "Precision": 0.5122,
       "F1": 0.6293,
-      "Tempo(s)": 0.9
+      "Tempo(s)": 1.0
     },
     {
       "Modelo": "Gradient Boosting",
@@ -195,7 +195,7 @@
       "Recall": 0.5045,
       "Precision": 0.6433,
       "F1": 0.5655,
-      "Tempo(s)": 12.1
+      "Tempo(s)": 13.5
     },
     {
       "Modelo": "XGBoost",
@@ -204,7 +204,7 @@
       "Recall": 0.8272,
       "Precision": 0.5041,
       "F1": 0.6264,
-      "Tempo(s)": 0.7
+      "Tempo(s)": 0.8
     }
   ]
 }
