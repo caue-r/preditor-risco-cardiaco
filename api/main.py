@@ -1,8 +1,13 @@
+from pathlib import Path
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from schemas import PredictRequest, PredictResponse, HealthCheckResponse
 from predictor import predictor, calcular_bmi, calcular_healthy_lifestyle
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 app = FastAPI(
     title="Heart Disease Risk API",
@@ -78,3 +83,6 @@ def endpoint_calcular_bmi(peso_kg: float, altura_cm: float):
         "bmi_cat":   cat,
         "categoria": labels[cat],
     }
+
+
+app.mount("/ui", StaticFiles(directory=str(BASE_DIR / "frontend"), html=True), name="frontend")

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação de Risco Cardiovascular</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+
+        <header>
+            <h1>Avaliação de Risco Cardiovascular</h1>
+            <p class="subtitle">
+                Instrumento de triagem baseado no conjunto de dados BRFSS 2015 (CDC, EUA).
+                Modelo preditivo: XGBoost — AUC-ROC: 0,85 &middot; Recall: 0,83.
+            </p>
+            <p class="disclaimer">
+                Este instrumento destina-se exclusivamente a fins educacionais e de pesquisa.
+                Não substitui avaliação clínica profissional.
+            </p>
+        </header>
+
+        <form id="form-risco" novalidate>
+
+            <!-- I. Perfil Demográfico -->
+            <section class="form-section">
+                <h2><span class="section-num">I</span> Perfil Demográfico</h2>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="sexo">Sexo biológico</label>
+                        <select id="sexo" name="sexo">
+                            <option value="0">Feminino</option>
+                            <option value="1">Masculino</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="age">Faixa etária</label>
+                        <select id="age" name="age">
+                            <option value="1">18–24 anos</option>
+                            <option value="2">25–29 anos</option>
+                            <option value="3">30–34 anos</option>
+                            <option value="4">35–39 anos</option>
+                            <option value="5">40–44 anos</option>
+                            <option value="6" selected>45–49 anos</option>
+                            <option value="7">50–54 anos</option>
+                            <option value="8">55–59 anos</option>
+                            <option value="9">60–64 anos</option>
+                            <option value="10">65–69 anos</option>
+                            <option value="11">70–74 anos</option>
+                            <option value="12">75–79 anos</option>
+                            <option value="13">80 anos ou mais</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="education">Escolaridade</label>
+                        <select id="education" name="education">
+                            <option value="1">Nunca frequentou escola</option>
+                            <option value="2">Ensino Fundamental I</option>
+                            <option value="3">Ensino Fundamental II</option>
+                            <option value="4">Ensino Médio incompleto</option>
+                            <option value="5" selected>Ensino Médio completo</option>
+                            <option value="6">Ensino Superior completo</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="income">Faixa de renda familiar</label>
+                        <select id="income" name="income">
+                            <option value="1">Até R$ 1.500/mês</option>
+                            <option value="2">R$ 1.500–3.000/mês</option>
+                            <option value="3">R$ 3.000–5.000/mês</option>
+                            <option value="4" selected>R$ 5.000–8.000/mês</option>
+                            <option value="5">R$ 8.000–12.000/mês</option>
+                            <option value="6">R$ 12.000–20.000/mês</option>
+                            <option value="7">R$ 20.000–30.000/mês</option>
+                            <option value="8">Acima de R$ 30.000/mês</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- II. Medidas Corporais -->
+            <section class="form-section">
+                <h2><span class="section-num">II</span> Medidas Corporais</h2>
+                <div class="grid-2">
+                    <div class="field">
+                        <label for="peso">Peso <span class="unit">(kg)</span></label>
+                        <input type="number" id="peso" name="peso" min="30" max="250" step="0.5" value="70">
+                    </div>
+                    <div class="field">
+                        <label for="altura">Altura <span class="unit">(cm)</span></label>
+                        <input type="number" id="altura" name="altura" min="100" max="230" step="0.5" value="170">
+                    </div>
+                </div>
+                <div id="bmi-preview" class="bmi-preview hidden">
+                    IMC calculado: <strong id="bmi-value">—</strong>
+                    <span id="bmi-cat-label"></span>
+                </div>
+            </section>
+
+            <!-- III. Histórico Clínico -->
+            <section class="form-section">
+                <h2><span class="section-num">III</span> Histórico Clínico</h2>
+                <div class="grid-2">
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="highbp" name="highbp">
+                        <span>Pressão arterial elevada diagnosticada</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="highchol" name="highchol">
+                        <span>Colesterol elevado diagnosticado</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="cholcheck" name="cholcheck">
+                        <span>Verificação de colesterol nos últimos 5 anos</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="stroke" name="stroke">
+                        <span>Histórico de acidente vascular cerebral</span>
+                    </label>
+                </div>
+                <div class="field" style="margin-top:1.25rem;">
+                    <label for="diabetes">Diabetes</label>
+                    <select id="diabetes" name="diabetes">
+                        <option value="0">Ausente</option>
+                        <option value="1">Pré-diabetes</option>
+                        <option value="2">Diabetes confirmado</option>
+                    </select>
+                </div>
+            </section>
+
+            <!-- IV. Percepção de Saúde -->
+            <section class="form-section">
+                <h2><span class="section-num">IV</span> Percepção de Saúde</h2>
+                <div class="field">
+                    <label for="genhlth">Autoavaliação da saúde geral</label>
+                    <select id="genhlth" name="genhlth">
+                        <option value="1">Excelente</option>
+                        <option value="2">Muito boa</option>
+                        <option value="3" selected>Boa</option>
+                        <option value="4">Regular</option>
+                        <option value="5">Ruim</option>
+                    </select>
+                </div>
+                <div class="grid-2" style="margin-top:1.25rem;">
+                    <div class="field">
+                        <label for="menthlth">
+                            Dias com saúde mental comprometida
+                            <span class="unit">(últimos 30 dias)</span>
+                        </label>
+                        <div class="range-field">
+                            <input type="range" id="menthlth" name="menthlth" min="0" max="30" value="0">
+                            <output id="menthlth-val">0</output>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="physhlth">
+                            Dias com problemas físicos de saúde
+                            <span class="unit">(últimos 30 dias)</span>
+                        </label>
+                        <div class="range-field">
+                            <input type="range" id="physhlth" name="physhlth" min="0" max="30" value="0">
+                            <output id="physhlth-val">0</output>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:1rem;">
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="diffwalk" name="diffwalk">
+                        <span>Dificuldade para caminhar ou subir escadas</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- V. Hábitos de Vida -->
+            <section class="form-section">
+                <h2><span class="section-num">V</span> Hábitos de Vida</h2>
+                <div class="grid-2">
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="physactivity" name="physactivity" checked>
+                        <span>Prática de atividade física nos últimos 30 dias</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="fruits" name="fruits" checked>
+                        <span>Consumo diário de frutas</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="veggies" name="veggies" checked>
+                        <span>Consumo diário de vegetais</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="smoker" name="smoker">
+                        <span>Tabagismo (mais de 100 cigarros ao longo da vida)</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="hvyalcohol" name="hvyalcohol">
+                        <span>Consumo excessivo de álcool</span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- VI. Acesso a Serviços de Saúde -->
+            <section class="form-section">
+                <h2><span class="section-num">VI</span> Acesso a Serviços de Saúde</h2>
+                <div class="grid-2">
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="anyhealthcare" name="anyhealthcare" checked>
+                        <span>Possui plano ou seguro de saúde</span>
+                    </label>
+                    <label class="checkbox-field">
+                        <input type="checkbox" id="nodoccost" name="nodoccost">
+                        <span>Deixou de consultar médico por questão financeira</span>
+                    </label>
+                </div>
+            </section>
+
+            <div class="form-footer">
+                <button type="submit" id="btn-submit">Calcular estimativa de risco</button>
+            </div>
+
+        </form>
+
+        <!-- Resultado -->
+        <section id="resultado" class="resultado hidden">
+            <h2>Resultado da Avaliação</h2>
+            <div id="result-content"></div>
+            <p class="result-disclaimer">
+                Este resultado é uma estimativa probabilística gerada por modelo de aprendizado de
+                máquina treinado em dados populacionais. Não constitui diagnóstico clínico.
+                Recomenda-se consulta a profissional de saúde qualificado para avaliação individualizada.
+            </p>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Projeto de Extensão Universitária &middot; Dados: BRFSS 2015, CDC (EUA) &middot; Modelo: XGBoost</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
